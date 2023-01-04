@@ -12,6 +12,7 @@ class YamlUtil(object):
         :param yaml_file:
         """
         self.yaml_file = yaml_file
+        print(self.yaml_file)
 
     def read_yaml(self):
         """
@@ -32,5 +33,5 @@ class YamlUtil(object):
 
 
 if __name__ == '__main__':
-    yamlutil = YamlUtil('../extract.yaml')
+    yamlutil = YamlUtil('../yaml_data/get_token.yaml')
     print(yamlutil.read_yaml())

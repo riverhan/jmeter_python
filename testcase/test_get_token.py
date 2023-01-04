@@ -1,15 +1,21 @@
 # -*- coding: UTF-8 -*-
 # Author: hanerbin
 # Date: 2022/11/24 16:03
+import os
+import sys
+
 import pytest
 
 from common.SendRequest import SendRequest
 from common.YamlUtil import YamlUtil
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, BASE_DIR)
+
 
 class TestGetToken(object):
-    # @pytest.mark.smoke
-    @pytest.mark.parametrize('args', YamlUtil('../yaml_data/get_token.yaml').read_yaml())
+    @pytest.mark.usermanage
+    @pytest.mark.parametrize('args', YamlUtil('yaml_data/get_token.yaml').read_yaml())
     def test_get_token(self, args):
         yamlutil = YamlUtil('../extract.yaml')
         url = args['request']['url']
