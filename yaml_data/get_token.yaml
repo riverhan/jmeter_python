@@ -11,3 +11,6 @@
       secret: ec47648a89bea33f6d7f7e39d68bb3e7
   validate:
     - eq: {expires_in: 7140}
+  extract:
+    # access_token: '"access_token":"(*)"'
+    access_token: $.access_token

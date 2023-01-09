@@ -14,5 +14,7 @@ class TestGetTags(object):
     @pytest.mark.parametrize('args', YamlUtil('yaml_data/get_tags.yaml').read_yaml())
     def test_get_tags(self, args):
         params = {'access_token': YamlUtil('extract.yaml').read_yaml()['access_token']}
-        r = SendRequest(args).send_all_request(params=params)
-        print(r.json())
+        print('================================')
+        print(params)
+        response = SendRequest(args).standard_yaml(params=params)
+        print(response.text)
