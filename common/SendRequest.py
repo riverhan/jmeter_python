@@ -2,18 +2,23 @@ import re
 
 import jsonpath
 import requests
+import yaml
 
 from common.YamlUtil import YamlUtil
+from common.debug_talk import DebugTalk
 
 
 class SendRequest:
 
     def __init__(self, yam_args):
+        self.regexp = None
         self._standard = {'name', 'request', 'validate'}
         self._sess = requests.session()
         self._args = yam_args
+        self._yaml_data = yaml.dump(self._args)
 
     def standard_yaml(self, flag=1, **kwargs):
+        self._yaml_hot_load()
         if self._standard <= set(self._args.keys()):
             if set(self._args['request'].keys()).issuperset({'method', 'url'}):
                 for k, v in self._args['request'].items():
@@ -50,6 +55,30 @@ class SendRequest:
                             print(json_value)
                     else:
                         print('未提取到相关数据！！')
+
+    def _yaml_hot_load(self):
+        self.regexp = "\\${(.*?)\\((.*?)\\)}"
+        reg_result = re.findall(self.regexp, self._yaml_data)
+        print(reg_result)
+        print(len(reg_result))
+        if len(reg_result) > 0:
+            if len(reg_result) != 1:
+                for value in reg_result:
+                    # for tuple_value in value:
+                    #     function_name = tuple_value
+                    #     print(function_name)
+                    #     result = getattr(DebugTalk(), function_name)()
+                    #     print(result)
+                    print(value[0], "+++++++", value[1])
+                    result = getattr(DebugTalk(), value[0])(value[1])
+                    print(result)
+            else:
+                for value in reg_result:
+                    for tuple_value in value:
+                        function_name = tuple_value[0]
+                        function_params = tuple_value[1]
+                        print(function_name, function_params)
+
 
 
 if __name__ == '__main__':

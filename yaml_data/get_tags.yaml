@@ -6,4 +6,5 @@
   validate:
   extract:
     # access_token: '"access_token":"(*)"'
-    name: '"name":"(.*?){1}"'
+    # name: '"name":"(.*?)"'
+    ss: ${read_yaml(access_token)}
