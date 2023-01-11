@@ -17,7 +17,7 @@ class SendRequest:
         self._args = yam_args
         self._yaml_data = yaml.dump(self._args)
 
-    def standard_yaml(self, flag=1, **kwargs):
+    def standard_yaml(self):
         self._yaml_hot_load()
         if self._standard <= set(self._args.keys()):
             if set(self._args['request'].keys()).issuperset({'method', 'url'}):
@@ -25,13 +25,13 @@ class SendRequest:
                     if k == 'files':
                         for fk, fv in v.items():
                             v[fk] = open(fv, 'rb')
-                self._extract_param(self._send_all_request(**self._args['request'], **kwargs))
-                return self._send_all_request(**self._args['request'], **kwargs)
+                print(self._args['request'])
+                self._extract_param(self._send_all_request(**self._args['request']))
+                return self._send_all_request(**self._args['request'])
             else:
                 print("YAML文件中必须包含'method'和'url'")
         else:
             print("YAML配置文件中缺少必要的标签")
-            return flag == 0
 
     def _send_all_request(self, **kwargs):
         response = self._sess.request(**kwargs)
@@ -42,7 +42,6 @@ class SendRequest:
             for k, v in self._args['extract'].items():
                 if "(.*?)" in v or "(.+?)" in v:
                     zz_value = re.findall(v, ret.text)
-                    print(zz_value)
                     if len(zz_value) == 1:
                         YamlUtil('extract.yaml').write_yaml({k: zz_value[0]})
                     else:
@@ -52,33 +51,20 @@ class SendRequest:
                     if json_value:
                         if len(json_value) == 1:
                             YamlUtil('extract.yaml').write_yaml({k: json_value[0]})
-                            print(json_value)
                     else:
                         print('未提取到相关数据！！')
 
     def _yaml_hot_load(self):
         self.regexp = "\\${(.*?)\\((.*?)\\)}"
         reg_result = re.findall(self.regexp, self._yaml_data)
-        print(reg_result)
-        print(len(reg_result))
-        if len(reg_result) > 0:
-            if len(reg_result) != 1:
-                for value in reg_result:
-                    # for tuple_value in value:
-                    #     function_name = tuple_value
-                    #     print(function_name)
-                    #     result = getattr(DebugTalk(), function_name)()
-                    #     print(result)
-                    print(value[0], "+++++++", value[1])
-                    result = getattr(DebugTalk(), value[0])(value[1])
-                    print(result)
+        for value in reg_result:
+            if value[1] == '':
+                result = getattr(DebugTalk(), value[0])()
+                self._yaml_data = re.sub(self.regexp, result, self._yaml_data)
             else:
-                for value in reg_result:
-                    for tuple_value in value:
-                        function_name = tuple_value[0]
-                        function_params = tuple_value[1]
-                        print(function_name, function_params)
-
+                result = getattr(DebugTalk(), value[0])(value[1])
+                self._yaml_data = re.sub(self.regexp, result, self._yaml_data)
+                print(self._yaml_data)
 
 
 if __name__ == '__main__':

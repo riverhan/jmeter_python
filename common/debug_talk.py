@@ -10,7 +10,7 @@ import yaml
 class DebugTalk(object):
     @staticmethod
     def read_yaml(key):
-        with open(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+'extract.yaml', 'r') as f:
+        with open('extract.yaml', 'r') as f:
             value = yaml.load(f, Loader=yaml.FullLoader)
             return value[key]
 
