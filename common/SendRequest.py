@@ -25,7 +25,6 @@ class SendRequest:
                     if k == 'files':
                         for fk, fv in v.items():
                             v[fk] = open(fv, 'rb')
-                print(self._args['request'])
                 self._extract_param(self._send_all_request(**self._args['request']))
                 return self._send_all_request(**self._args['request'])
             else:
@@ -64,7 +63,7 @@ class SendRequest:
             else:
                 result = getattr(DebugTalk(), value[0])(value[1])
                 self._yaml_data = re.sub(self.regexp, result, self._yaml_data)
-                print(self._yaml_data)
+        self._args = yaml.load(self._yaml_data, Loader=yaml.FullLoader)
 
 
 if __name__ == '__main__':

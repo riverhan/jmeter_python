@@ -5,9 +5,3 @@
 @IDE ：PyCharm
 
 """
-import re
-
-regexp = r"\${(.*?)\((.*?)\)}"
-a = '${read_yaml(token1)}'
-b = re.findall(regexp, a)
-print(b)
