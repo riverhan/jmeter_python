@@ -10,7 +10,7 @@ from common.YamlUtil import YamlUtil
 
 
 class TestGetTags(object):
-    @pytest.mark.smoke
+    @pytest.mark.smoke1
     @pytest.mark.parametrize('args', YamlUtil('yaml_data/get_tags.yaml').read_yaml())
     def test_get_tags(self, args):
         response = SendRequest(args).standard_yaml()

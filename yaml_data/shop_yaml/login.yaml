@@ -1,0 +1,11 @@
+-
+  name: 电商登录
+  request:
+    method: get
+    url: http://101.34.221.219:8010/api.php
+    params:
+      s: index/index
+      application: app
+      application_client: weixin
+      ajax: ajax
+  validate: null

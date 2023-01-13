@@ -8,7 +8,7 @@ from common.YamlUtil import YamlUtil
 
 
 class TestGetToken(object):
-    @pytest.mark.smoke
+    @pytest.mark.smoke1
     @pytest.mark.parametrize('args', YamlUtil('yaml_data/get_token.yaml').read_yaml())
     def test_get_token(self, args):
         response = SendRequest(args).standard_yaml()
