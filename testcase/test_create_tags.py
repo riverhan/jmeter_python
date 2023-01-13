@@ -5,12 +5,14 @@
 """
 
 import pytest
+import requests
+
 from common.SendRequest import SendRequest
 from common.YamlUtil import YamlUtil
 
 
 class TestCreateTage(object):
-    @pytest.mark.smoke1
+    @pytest.mark.smoke
     @pytest.mark.parametrize('args', YamlUtil('yaml_data/create_tags.yaml').read_yaml())
     def test_create_tags(self, args):
         response = SendRequest(args).standard_yaml()

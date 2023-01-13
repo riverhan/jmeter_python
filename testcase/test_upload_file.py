@@ -16,4 +16,4 @@ class TestUploadFile(object):
     @pytest.mark.parametrize('args', YamlUtil('yaml_data/test_upload_file.yaml').read_yaml())
     def test_upload_file(self, args):
         response = SendRequest(args).standard_yaml()
-        print(response)
+        print(response.text)
